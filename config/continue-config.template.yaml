@@ -1,0 +1,19 @@
+name: Databricks-Integration
+version: 1.0.0
+schema: v1
+
+#edit the models as you need
+models:
+  - name: Claude-Sonnet-4
+    provider: openai
+    model: databricks-claude-sonnet-4
+    apiBase: https://${WORKSPACE_HOST}/serving-endpoints
+    apiKey: ${WORKSPACE_API_TOKEN}
+    roles:
+      - chat         
+      - edit         
+      - apply        
+      - autocomplete
+    defaultCompletionOptions:
+      temperature: 0.7
+      maxTokens: 8192
