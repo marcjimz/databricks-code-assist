@@ -1,1 +1,2 @@
 litellm_config.yaml
+logs/*.log
