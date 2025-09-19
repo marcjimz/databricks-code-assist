@@ -37,6 +37,47 @@ chmod +x ./scripts/run.sh
 ./scripts/run.sh $WORKSPACE_HOST $WORKSPACE_API_TOKEN
 ```
 
+Output:
+
+> [INFO] Starting Continue.dev + Databricks LLM setup...
+> [INFO] Workspace Host: adb-....10.azuredatabricks.net
+> [INFO] API Token: .....
+> [INFO] Step 1: Verifying Databricks connection...
+> [SUCCESS] Successfully connected to Databricks workspace
+> [INFO] Step 2: Checking LiteLLM installation...
+> [SUCCESS] LiteLLM is already installed
+> [INFO] Step 3: Creating LiteLLM configuration...
+> [SUCCESS] LiteLLM configuration created
+> [INFO] Step 4: Starting LiteLLM proxy...
+> [WARNING] Port 4000 is already in use. Stopping existing process...
+> [SUCCESS] LiteLLM proxy started with PID: 7293
+> [INFO] Logs are being written to: logs/litellm_20250919_094604.log
+> [INFO] Step 5: Waiting for LiteLLM proxy to start up...
+> [SUCCESS] LiteLLM proxy is running and healthy
+> [INFO] Step 6: Testing LiteLLM proxy...
+> [SUCCESS] LiteLLM proxy test successful
+> [INFO] Step 7: Creating Continue.dev configuration...
+> [SUCCESS] Continue.dev configuration created at ~/.continue/config.yaml
+>
+> [SUCCESS] 🎉 Setup completed successfully!
+>
+> [INFO] Next steps:
+>   1. Open VS Code and install the Continue extension if not already installed
+>   2. Press CMD/CTRL + I to open the Continue panel
+>   3. Navigate to scripts/continue_tutorial.py to test the integration
+>   4. Select your model in the Continue.dev sidebar
+>
+> [INFO] LiteLLM proxy is running in the background (PID: 7293)
+> [INFO] Logs: logs/litellm_20250919_094604.log
+>
+> [WARNING] Keep this terminal session alive or the LiteLLM proxy will stop!
+> [INFO] To stop the proxy later, run: kill 7293
+>
+> [INFO] To check if the proxy is still running:
+>   curl http://localhost:4000/health
+>
+> [SUCCESS] Happy coding with Continue.dev + Databricks! 🚀
+
 ## Databricks Setup
 
 ### 🔑 Generate Access Token
