@@ -1,20 +1,41 @@
 # 🚀 Continue.dev + Databricks LLM Setup Guide
 
+This repository is a quick setup for how you can use `Continue.DEV` powered by Databricks LLMs via LiteLLM. For more info on Continue, please refer to their [page](https://github.com/continuedev/continue).
+
 ## Prerequisites
 
 ### System Requirements
-- 💻 VS Code or JetBrains IDE
-- 🌐 Internet connection
+- 💻 VS Code IDE
 - 🔧 Databricks workspace with Foundation Model APIs access
 
 ## Continue.dev Installation
 
 ### Install Extension
+
+#### GUI
+
+1. Navigate to Extensions `(CMD/Ctrl + Shift + X)`
+2. Search "Continue" 
+3. Install
+4. Once complete, `CMD/CTRL + I` should take you to the Continue panel
+
+#### Mac CLI
 ```bash
 code --install-extension Continue.continue
 ```
 
 **Config Location:** `~/.continue/` (macOS/Linux) or `%USERPROFILE%\.continue\` (Windows)
+
+## Setup TLDR; Run Script Once
+
+Fill in the two variables. Run the script.
+
+```bash
+export WORKSPACE_HOST=adb-....10.azuredatabricks.net
+export WORKSPACE_API_TOKEN=<WORKSPACE_API_PAT>
+chmod +x ./scripts/run.sh
+./scripts/run.sh $WORKSPACE_HOST $WORKSPACE_API_TOKEN
+```
 
 ## Databricks Setup
 
@@ -64,8 +85,8 @@ sed -e "s/\${WORKSPACE_HOST}/$WORKSPACE_HOST/g" \
     -e "s/\${WORKSPACE_API_TOKEN}/$WORKSPACE_API_TOKEN/g" \
     config/litellm_config.template.yaml > litellm_config.yaml
 
-# Start proxy
-litellm --config litellm_config.yaml --port 4000
+# Start proxy, should notice logs appearing
+DATETIME=$(date '+%Y%m%d_%H%M%S') && nohup litellm --config litellm_config.yaml --port 4000 > logs/litellm_${DATETIME}.log 2>&1 &
 ```
 
 ### 🧪 Test LiteLLM
@@ -91,9 +112,6 @@ sed -e "s/\${WORKSPACE_HOST}/$WORKSPACE_HOST/g" \
     -e "s/\${WORKSPACE_API_TOKEN}/$WORKSPACE_API_TOKEN/g" \
     config/continue-config.template.yaml > ~/.continue/config.yaml
 ```
-
-### 🔄 Reload VS Code
-`Cmd/Ctrl + Shift + P` → `Developer: Reload Window`
 
 ## 5️⃣ Final Testing
 
