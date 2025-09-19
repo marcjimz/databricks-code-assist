@@ -1,2 +1,3 @@
 litellm_config.yaml
 logs/*.log
+.DS_Store

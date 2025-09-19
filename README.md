@@ -8,6 +8,10 @@ This repository is a quick setup for how you can use `Continue.DEV` powered by D
 - 💻 VS Code IDE
 - 🔧 Databricks workspace with Foundation Model APIs access
 
+## E2E In Action
+
+![Demo GIF](./img/CodeAssistDABContinuous.gif)
+
 ## Continue.dev Installation
 
 ### Install Extension
