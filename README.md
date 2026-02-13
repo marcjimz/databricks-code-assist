@@ -110,16 +110,16 @@ export DATABRICKS_HOST=your-workspace.cloud.databricks.com
 export DATABRICKS_TOKEN=dapi-your-token
 ```
 
-## Building a ReAct Agent
+## Example: Building a React Frontend
 
-See [examples/react_agent.py](examples/react_agent.py) for a complete example of building a ReAct (Reasoning + Acting) agent using Databricks LLMs.
+Once set up, you can use Aider or Continue.dev to build full-stack applications. For example, prompt:
 
-```python
-from databricks_code_assist.react import ReActAgent
-
-agent = ReActAgent(tools=[search, calculator])
-result = agent.run("What is the population of France divided by 1000?")
 ```
+Build a React frontend with a dashboard that displays user metrics.
+Include a sidebar navigation, charts using recharts, and a dark mode toggle.
+```
+
+The AI assistant will generate the complete React application with components, styling, and functionality.
 
 ## Requirements
 
