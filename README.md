@@ -1,102 +1,128 @@
-# 🚀 Databricks LLM AI Coding Assistants Setup Guide
+# Databricks Code Assist
 
-Quick setup for using AI coding assistants (Continue.dev or Aider) powered by Databricks LLMs via LiteLLM.
+A CLI tool for setting up AI coding assistants (Aider, Continue.dev) with Databricks LLMs.
 
-## 📺 Demo
+![Demo](./img/CodeAssistDABContinuous.gif)
 
-![Demo GIF](./img/CodeAssistDABContinuous.gif)
+## Installation
 
-## Prerequisites
-
-- 🔧 Databricks workspace with Foundation Model APIs access
-- 🐍 Python 3.8+ with pip
-- 💻 VS Code (for Continue.dev) or Terminal (for Aider)
-
-## 🔑 Databricks Setup
-
-### Generate Access Token
-```
-Workspace Settings → Advanced → Personal Access Tokens → Generate New Token
-```
-
-### Store Credentials
 ```bash
-export WORKSPACE_HOST=adb-1234567890.10.azuredatabricks.net
-export WORKSPACE_API_TOKEN=dapi-your-token
+pip install -e .
 ```
 
-### Verify Connection
+## Quick Start
+
+### 1. Setup
+
 ```bash
-curl -X GET "https://$WORKSPACE_HOST/api/2.0/serving-endpoints" \
-  -H "Authorization: Bearer $WORKSPACE_API_TOKEN"
+databricks-code-assist setup
 ```
 
-## 🔧 LiteLLM Setup
+This will prompt for your Databricks workspace host and API token, then configure everything automatically.
 
-### Install and Start
+### 2. Validate
+
 ```bash
-pip install 'litellm[proxy]' --upgrade
-
-# Create config
-sed -e "s/\${WORKSPACE_HOST}/$WORKSPACE_HOST/g" \
-    -e "s/\${WORKSPACE_API_TOKEN}/$WORKSPACE_API_TOKEN/g" \
-    config/litellm_config.template.yaml > litellm_config.yaml
-
-# Start proxy
-DATETIME=$(date '+%Y%m%d_%H%M%S')
-mkdir -p logs
-nohup litellm --config litellm_config.yaml --port 4000 > logs/litellm_${DATETIME}.log 2>&1 &
+databricks-code-assist validate
 ```
 
-### Test
+Tests the connection to Databricks and the LiteLLM proxy.
+
+### 3. Run
+
+**Start Aider (terminal-based coding assistant):**
+
 ```bash
-curl http://localhost:4000/health
+databricks-code-assist run aider
 ```
 
-## 🅰️ Continue.dev Setup
+**Start Continue.dev (VS Code extension):**
 
-### Install Extension
 ```bash
-code --install-extension Continue.continue
+databricks-code-assist run continue
 ```
 
-### Quick Setup Script
+Then open VS Code and press `Cmd/Ctrl+I` to use Continue.
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `databricks-code-assist setup` | Configure Databricks credentials |
+| `databricks-code-assist validate` | Test the connection |
+| `databricks-code-assist run aider` | Start Aider with Databricks LLM |
+| `databricks-code-assist run continue` | Start Continue.dev with Databricks LLM |
+| `databricks-code-assist status` | Show current configuration |
+| `databricks-code-assist stop` | Stop the LiteLLM proxy |
+
+## Options
+
+All commands support these options:
+
 ```bash
-chmod +x ./scripts/run.sh
-./scripts/run.sh $WORKSPACE_HOST $WORKSPACE_API_TOKEN
+--port PORT    # LiteLLM proxy port (default: 4000)
+--help         # Show help
 ```
 
-### Start Using
-1. Open VS Code
-2. Press `CMD/CTRL + I` to open Continue panel
-3. Select model and start coding
+Setup command options:
 
-## 🅱️ Aider Setup
-
-### Install Aider
 ```bash
-curl -LsSf https://aider.chat/install.sh | sh
+--host HOST        # Databricks workspace URL
+--api-key KEY      # Databricks API token
+--model MODEL      # Model name (default: claude-sonnet-4)
 ```
 
-### Quick Setup Script
+## Examples
+
+### Using Aider with specific files
+
 ```bash
-chmod +x ./scripts/setup_aider.sh
-./scripts/setup_aider.sh $WORKSPACE_HOST $WORKSPACE_API_TOKEN
+databricks-code-assist run aider -- file1.py file2.py
 ```
 
-### Start Using
+### Using Aider in read-only mode
+
 ```bash
-# Navigate to your project
-cd /path/to/project
-
-# Start Aider
-aider --model openai/claude-sonnet-4
+databricks-code-assist run aider -- --read myfile.py
 ```
 
-## 🎉 That's It!
+### Custom port
 
-Both tools use the same LiteLLM proxy. Choose the one that fits your workflow:
-- **Continue.dev**: GUI in VS Code
-- **Aider**: Terminal CLI
+```bash
+databricks-code-assist setup --port 5000
+databricks-code-assist run aider --port 5000
+```
 
-Keep the LiteLLM proxy running while using either tool.
+## Configuration
+
+Configuration is stored in `~/.databricks-code-assist/`:
+
+- `config.yaml` - Databricks credentials and settings
+- `litellm_config.yaml` - LiteLLM proxy configuration
+- `logs/` - LiteLLM proxy logs
+
+## Environment Variables
+
+You can also set credentials via environment variables:
+
+```bash
+export DATABRICKS_HOST=your-workspace.cloud.databricks.com
+export DATABRICKS_TOKEN=dapi-your-token
+```
+
+## Building a ReAct Agent
+
+See [examples/react_agent.py](examples/react_agent.py) for a complete example of building a ReAct (Reasoning + Acting) agent using Databricks LLMs.
+
+```python
+from databricks_code_assist.react import ReActAgent
+
+agent = ReActAgent(tools=[search, calculator])
+result = agent.run("What is the population of France divided by 1000?")
+```
+
+## Requirements
+
+- Python 3.9+
+- Databricks workspace with Foundation Model APIs access
+- VS Code (for Continue.dev)
