@@ -1,24 +1,56 @@
-# Generated LiteLLM configs
+# Generated configs
 litellm_config.yaml
-claude-code-litellm.yaml
-
-# Logs
 logs/*.log
-logs/*.pid
 
 # macOS
 .DS_Store
+.claude*
 
-# Aider config (generated in project root)
+# Aider
 .aider*
 
-# Claude Code development directory (created when using Claude Code on this repo)
-/.claude/
-/.claude.json
+# Claude
+.claude*
 
-# Claude Code isolated home directory (for Databricks integration)
-.claude-code-home/
-
-# Python cache
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Type checking
+.mypy_cache/
+.gitignore
